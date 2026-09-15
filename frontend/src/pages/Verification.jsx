@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from "react"
 
 
-const [items, setItems] = useState(cases)
+
 const cases = [
   {
     id: "A103",
@@ -25,6 +25,8 @@ const cases = [
 
 
 const Verification = () => {
+  
+  const [items, setItems] = useState(cases)
    return (
     <div>
       <h2 className="text-2xl font-semibold">Verification Queue</h2>
@@ -34,7 +36,7 @@ const Verification = () => {
       </p>
 
       <div className="mt-8 space-y-4">
-        {cases.map((item) => (
+        {items.map((item) => (
           <div
             key={item.id}
             className="bg-[#151b24] border border-[#252d38] rounded-xl p-6"
@@ -44,7 +46,6 @@ const Verification = () => {
                 <p className="text-lg font-semibold">{item.activity}</p>
                 <p className="text-sm text-gray-500 mt-1">{item.id}</p>
               </div>
-
               <span className="text-red-400 text-sm font-semibold">
                 {item.confidence}
               </span>
@@ -69,12 +70,14 @@ const Verification = () => {
 
             <div className="flex gap-3 mt-6">
               <button
-              
+              onClick={()=> setItems(items.filter((x)=>x.id!==item.id))}
               className="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700">
                 Confirm
               </button>
 
-              <button className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700">
+              <button
+              onClick={()=> setItems(items.filter((x)=>x.id!==item.id))}
+              className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700">
                 Reject
               </button>
 

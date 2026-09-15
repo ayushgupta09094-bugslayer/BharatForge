@@ -31,7 +31,7 @@ const Dashboard = () => {
 
               <div className='mt-6'>
                 <div className='flex justify-between text-sm'>
-                  <span>Completed</span>
+                  <span>Planned</span>
                   <span 
                   className='text-gray-400'></span>
                   <span>82%</span>
