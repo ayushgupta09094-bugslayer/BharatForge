@@ -2,11 +2,11 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 const menu = [
-    "Dashboard",
-    "Projects",
-    "Activities",
-    "Field Reports",
-    "Verification"
+  ["Dashboard", "/"],
+  ["Projects", "/projects"],
+  ["Activities", "/activities"],
+  ["Field Reports", "/reports"],
+  ["Verification", "/verification"],
 ]
 
 const Sidebar = () => {
