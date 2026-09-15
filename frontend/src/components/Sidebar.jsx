@@ -1,12 +1,11 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
 
 const menu = [
-  ["Dashboard", "/"],
-  ["Projects", "/projects"],
-  ["Activities", "/activities"],
-  ["Field Reports", "/reports"],
-  ["Verification", "/verification"],
+    "Dashboard",
+    "Projects",
+    "Activities",
+    "Field Reports",
+    "Verification"
 ]
 
 const Sidebar = () => {
@@ -15,20 +14,13 @@ const Sidebar = () => {
       <h1 className="text-xl font-bold">BharatForge</h1>
 
       <nav className='space-y-2'>
-        {menu.map(([label, path])=> (
-            <NavLink 
-            key={label}
-            to={path}
-             className={({ isActive }) =>
-              `block px-4 py-3 rounded-lg ${
-                isActive
-                  ? "bg-[#1b2430] text-white"
-                  : "text-gray-400 hover:bg-[#151b24] hover:text-white"
-              }`
-            }
+        {menu.map((item)=> (
+            <div 
+            key={item}
+            className='mt-2 px-4 py-3 rounded-lg text-gray-400 hover:bg-[#151b24] hover:text-white cursor-pointer'
             >
-            {label}
-            </NavLink>
+            {item}
+            </div>
         ))}
       </nav>
     </aside>
