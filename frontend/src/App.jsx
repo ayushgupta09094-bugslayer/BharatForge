@@ -1,5 +1,32 @@
-import React,{useEffect,useState} from 'react';
-import './App.css';
-import Dashboard from './pages/Dashboard'; import Projects from './pages/Projects'; import Activities from './pages/Activities'; import ActivityDetails from './pages/ActivityDetails'; import Reports from './pages/Reports'; import Verification from './pages/Verification'; import Documents from './pages/Documents';
-const nav=[['Dashboard','dashboard'],['Projects','projects'],['Activities','activities'],['Field Reports','reports'],['Verification','verification'],['DPR / Site Diary','documents']];
-export default function App(){const[page,setPage]=useState(location.hash.slice(1)||'dashboard'),[selected,setSelected]=useState(null),[refresh,setRefresh]=useState(0);useEffect(()=>{const f=()=>{setPage(location.hash.slice(1)||'dashboard');setSelected(null)};addEventListener('hashchange',f);return()=>removeEventListener('hashchange',f)},[]);const go=p=>{setSelected(null);location.hash=p};const title=selected?'Activity Details':nav.find(x=>x[1]===page)?.[0]||'Dashboard';return <div className="app"><aside><div className="brand">Bharat<span>Forge</span></div><div className="subtitle">PROJECT EXECUTION</div>{nav.map(([label,id])=><button className={page===id?'nav active':'nav'} onClick={()=>go(id)} key={id}>{label}</button>)}<div className="side-foot"><span className="dot"/> PostgreSQL connected</div></aside><main><header><div><div className="eyebrow">CONTROL TOWER</div><h1>{title}</h1></div><div className="api"><span className="dot"/> LIVE</div></header><section className="content">{selected?<ActivityDetails id={selected} onBack={()=>setSelected(null)} onRefresh={()=>setRefresh(x=>x+1)}/>:page==='dashboard'?<Dashboard setSelected={setSelected} refresh={refresh}/>:page==='projects'?<Projects/>:page==='activities'?<Activities setSelected={setSelected}/>:page==='reports'?<Reports/>:page==='verification'?<Verification onRefresh={()=>setRefresh(x=>x+1)}/>:page==='documents'?<Documents/>:<Dashboard setSelected={setSelected} refresh={refresh}/>}</section></main></div>}
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Sidebar from "./components/Sidebar"
+import Dashboard from "./pages/Dashboard"
+import Projects from "./pages/Projects"
+import Activities from "./pages/Activities"
+import Reports from "./pages/Reports"
+import Verification from "./pages/Verification"
+import ActivityDetails from "./pages/ActivityDetails"
+
+const App = () => {
+  return  (
+    <BrowserRouter>
+    <div className='flex min-h-screen bg-[#11161d]'>
+      <Sidebar />
+
+      <main className='flex-1 p-8 text-white'>
+       <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/activities" element={<Activities />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/verification" element={<Verification />} />
+            <Route path="/activity/A103" element={<ActivityDetails />} />
+          </Routes>
+      </main>
+    </div>
+    </BrowserRouter>
+  )
+
+}
+
+export default App

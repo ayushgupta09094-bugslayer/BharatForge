@@ -1,2 +1,12 @@
-import React,{useEffect,useState} from 'react'; import {api,Loading,ErrorBox} from './shared';
-export default function Reports(){const[items,setItems]=useState([]),[acts,setActs]=useState([]),[form,setForm]=useState({activity_id:'',description:'',reported_progress:'',evidence:'',submitted_by:'Site Engineer'}),[err,setErr]=useState(''),[saving,setSaving]=useState(false);const load=()=>Promise.all([api('/reports'),api('/activities')]).then(([r,a])=>{setItems(r);setActs(a);if(!form.activity_id&&a[0])setForm(f=>({...f,activity_id:a[0].id}))}).catch(e=>setErr(e.message));useEffect(load,[]);const add=async()=>{if(!form.activity_id||!form.description||form.reported_progress==='')return setErr('Activity, description and reported progress are required.');setSaving(true);try{await api('/reports',{method:'POST',body:JSON.stringify(form)});setForm(f=>({...f,description:'',reported_progress:'',evidence:''}));await load()}catch(e){setErr(e.message)}finally{setSaving(false)}};return <><p className="lead">Submit site evidence and send uncertain updates to verification.</p><ErrorBox message={err}/><div className="panel"><div className="panel-title">New Field Report</div><div className="formgrid"><select value={form.activity_id} onChange={e=>setForm({...form,activity_id:e.target.value})}>{acts.map(a=><option key={a.id} value={a.id}>{a.id} — {a.name}</option>)}</select><input placeholder="Reported progress %" type="number" min="0" max="100" value={form.reported_progress} onChange={e=>setForm({...form,reported_progress:e.target.value})}/><input placeholder="Description" value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/><input placeholder="Evidence / photo reference" value={form.evidence} onChange={e=>setForm({...form,evidence:e.target.value})}/><input placeholder="Submitted by" value={form.submitted_by} onChange={e=>setForm({...form,submitted_by:e.target.value})}/><button className="primary" disabled={saving} onClick={add}>{saving?'Submitting…':'Submit Report'}</button></div></div><div className="panel"><div className="panel-title">Recent Reports</div>{items.map(r=><div className="report" key={r.id}><b>{r.id}</b><span>{r.activity_name}: {r.description}<small>By {r.submitted_by} · {r.reported_progress}%</small></span><small>{r.verification_status}</small></div>)}{!items.length&&<Loading/>}</div></>}
+import React from 'react'
+
+const Reports = () => {
+  return (
+    <div>
+      <h2 className="text-2xl font-semibold">Field Reports</h2>
+      <p className="text-gray-400 mt-2">Ground execution updates</p>
+    </div>
+  )
+}
+
+export default Reports

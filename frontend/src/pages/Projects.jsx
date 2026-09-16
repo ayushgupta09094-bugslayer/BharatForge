@@ -1,2 +1,19 @@
-import React,{useEffect,useState} from 'react'; import {api,Progress,Loading,ErrorBox} from './shared';
-export default function Projects(){const[items,setItems]=useState([]),[form,setForm]=useState({code:'',name:'',location:'India'}),[err,setErr]=useState(''),[saving,setSaving]=useState(false); const load=()=>api('/projects').then(setItems).catch(e=>setErr(e.message)); useEffect(load,[]); const add=async()=>{if(!form.code||!form.name)return setErr('Project code and name are required.'); setSaving(true);setErr('');try{await api('/projects',{method:'POST',body:JSON.stringify(form)});setForm({code:'',name:'',location:'India'});await load()}catch(e){setErr(e.message)}finally{setSaving(false)}};return <><p className="lead">Create and monitor projects stored in PostgreSQL.</p><ErrorBox message={err}/><div className="panel"><div className="panel-title">Add Project</div><div className="formgrid"><input placeholder="Project code" value={form.code} onChange={e=>setForm({...form,code:e.target.value})}/><input placeholder="Project name" value={form.name} onChange={e=>setForm({...form,name:e.target.value})}/><input placeholder="Location" value={form.location} onChange={e=>setForm({...form,location:e.target.value})}/><button className="primary" disabled={saving} onClick={add}>{saving?'Saving…':'Add Project'}</button></div></div><div className="grid2">{items.map(p=><div className="panel" key={p.id}><b>{p.name}</b><div className="muted">{p.code} · {p.location}</div><Progress label="Progress" value={Number(p.progress)}/></div>)}</div>{!items.length&&<Loading/>}</>}
+import React from 'react'
+
+const Projects = () => {
+  return (
+    <div
+       className={({ isActive }) =>
+              `block px-4 py-3 rounded-lg ${
+                isActive
+                  ? "bg-[#1b2430] text-white"
+                  : "text-gray-400 hover:bg-[#151b24] hover:text-white"
+                 
+              }`
+            }
+            > Abhijeet
+    </div>
+  )
+}
+
+export default Projects
